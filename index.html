@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>Memory Pair Game for Kids 🦊</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦊</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="clouds" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<!-- ============ START SCREEN ============ -->
+<section id="startScreen" class="screen">
+  <div class="start-card">
+    <div id="mascotStart" class="mascot" aria-hidden="true">🦊</div>
+    <h1>Memory Pair Game</h1>
+    <p class="subtitle">Find the matching cards! 🎴</p>
+
+    <div class="quick-pick">
+      <button class="chip" data-quick="4">😊 Easy · 4</button>
+      <button class="chip chip-active" data-quick="6">🌟 Medium · 6</button>
+      <button class="chip" data-quick="12">🚀 Hard · 12</button>
+    </div>
+
+    <div class="start-row">
+      <label>Cards from
+        <select id="startCharset">
+          <option value="az">a – z (lowercase)</option>
+          <option value="AZ">A – Z (UPPERCASE)</option>
+          <option value="09">0 – 9 (digits)</option>
+          <option value="1-20">1 – 20 (numbers)</option>
+          <option value="1-100">1 – 100 (numbers)</option>
+          <option value="animals">🐶 Animals (fun!)</option>
+        </select>
+      </label>
+      <label>Pairs
+        <span class="stepper">
+          <button id="pairsMinus" type="button">−</button>
+          <b id="pairsLabel">6</b>
+          <button id="pairsPlus" type="button">+</button>
+        </span>
+      </label>
+    </div>
+    <p id="clampHint" class="clamp-hint" hidden></p>
+
+    <div class="start-actions">
+      <button id="newGameBtn" class="big-btn">▶ New Game</button>
+      <button id="openSettingsBtn" class="ghost-btn">⚙️ Settings</button>
+      <button id="howBtn" class="ghost-btn">❓ How to Play</button>
+    </div>
+    <p id="bestLine" class="best-line">No best score yet — be the first! 🏆</p>
+  </div>
+</section>
+
+<!-- ============ GAME SCREEN ============ -->
+<section id="gameScreen" class="screen" hidden>
+  <header class="hud">
+    <button id="homeBtn" class="hud-btn" title="Back to start">🏠</button>
+    <div class="hud-stats">
+      <span class="stat">🔁 Turns <b id="turnsVal">0</b></span>
+      <span class="stat">⭐ Marks <b id="marksVal">0 / 6</b></span>
+      <span class="stat">🏆 Best <b id="bestVal">–</b></span>
+    </div>
+    <div class="hud-btns">
+      <button id="sayAgainBtn" class="hud-btn" title="Hear the cards again">🔊</button>
+      <button id="gameSettingsBtn" class="hud-btn" title="Settings">⚙️</button>
+      <button id="restartBtn" class="hud-btn" title="Restart">🔄</button>
+    </div>
+  </header>
+  <div id="mascotBar" class="mascot-bar"><span id="mascotGame">🦊</span><span id="cheerText">Pick any card!</span></div>
+  <main id="boardWrap"><div id="board" role="grid" aria-label="Memory cards"></div></main>
+</section>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<div id="settingsModal" class="overlay" hidden>
+  <div class="modal">
+    <h2>⚙️ Settings</h2>
+    <label class="row">Cards from
+      <select id="setCharset">
+        <option value="az">a – z</option>
+        <option value="AZ">A – Z</option>
+        <option value="09">0 – 9</option>
+        <option value="1-20">1 – 20</option>
+        <option value="1-100">1 – 100</option>
+        <option value="animals">🐶 Animals</option>
+      </select>
+    </label>
+    <label class="row">Pairs (2–18)
+      <input id="setPairs" type="number" min="2" max="18" step="1" value="6">
+    </label>
+    <label class="row switch"><span>🗣️ Talking voice (TTS)</span><input id="setTts" type="checkbox" checked></label>
+    <label class="row switch"><span>🔔 Sound effects</span><input id="setSfx" type="checkbox" checked></label>
+    <label class="row switch"><span>👀 Peek at start (2s)</span><input id="setPeek" type="checkbox" checked></label>
+    <p class="note">Settings save automatically on this computer. ✨</p>
+    <div class="modal-actions">
+      <button id="resetSettingsBtn" class="ghost-btn">Reset</button>
+      <button id="closeSettingsBtn" class="big-btn small">Done ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HOW TO PLAY ============ -->
+<div id="howModal" class="overlay" hidden>
+  <div class="modal">
+    <h2>❓ How to Play</h2>
+    <ol class="how">
+      <li>👆 Click a card — it flips and talks!</li>
+      <li>👆👆 Click a second card. Same? You get ⭐ 1 mark!</li>
+      <li>🙈 Different? They hide again. Remember them!</li>
+      <li>🏁 Finish with as <b>few turns</b> as you can!</li>
+    </ol>
+    <div class="modal-actions"><button id="closeHowBtn" class="big-btn small">Let's go! 🚀</button></div>
+  </div>
+</div>
+
+<!-- ============ WIN MODAL ============ -->
+<div id="winModal" class="overlay" hidden>
+  <div class="modal win">
+    <div class="mascot">🎉🦊🎉</div>
+    <h2 id="winTitle">You did it!</h2>
+    <p id="winStars" class="win-stars">⭐⭐⭐</p>
+    <p id="winText"></p>
+    <p id="winBest" class="best-line"></p>
+    <div class="modal-actions">
+      <button id="winHomeBtn" class="ghost-btn">🏠 Home</button>
+      <button id="winAgainBtn" class="big-btn small">Play Again 🔄</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<script src="js/config.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/deck.js"></script>
+<script src="js/tts.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/anim.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
