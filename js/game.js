@@ -8,10 +8,17 @@
   // Display text may have emoji (UI), but SPOKEN lines must be plain real
   // English — the voice reads emoji names aloud ("balloon"), which is
   // nonsense to kids. Keep both arrays in the same order/mood.
-  const PRAISE = ['Great! 🎉', 'Awesome! ⭐', 'Super! 🌈', 'Wow! 🎈', 'Bravo! 👏'];
+  const PRAISE = ['Great! 🎉', 'Awesome! ⭐', 'Super! 🌈', 'Wow! 🎈', 'Bravo! 👏',
+    'Fantastic! 🌟', 'Cool! 😎', 'Yay! 🎊', 'Nice! 🍎', 'Perfect! 💯'];
   const PRAISE_SPOKEN = ['Great job!', 'Awesome! You found a pair!', 'Super! Well done!',
-    'Wow! Amazing!', 'Bravo!'];
-  const TRY_AGAIN = ['Oops! Try again! 🙈', 'Almost! Remember them! 🐘', 'Good try! 👀'];
+    'Wow! Amazing!', 'Bravo!', 'Fantastic!', 'Cool! You did it!', 'Yay! You found a match!',
+    'Nice work!', 'Perfect!'];
+  const TRY_AGAIN = ['Oops! Try again! 🙈', 'Almost! Remember them! 🐘', 'Good try! 👀',
+    'Not a match! 🦊', 'So close! 🌈', "You'll get it! 💪", 'Keep going! 🚀', 'Think hard! 🧠',
+    'No match! 🐵', 'Never mind! 🌟'];
+  const TRY_AGAIN_SPOKEN = ['Oops! Try again!', 'Almost! Try to remember them!', 'Good try!',
+    'Not a match! Keep looking!', 'So close!', "You'll get it next time!", 'Keep going!',
+    'Think hard! Where was it?', 'No match! Try again!', 'Never mind! You can do it!'];
 
   function say(text) { if (S.tts) window.PairTTS.speak(text); }
   function refreshStartUI() {
@@ -106,10 +113,13 @@
       el.setAttribute('role', 'gridcell');
       el.tabIndex = 0;
       el.dataset.uid = card.uid;
+      el.dataset.speak = card.speak; // 🔊 button reads this (front text now mixes char + word)
       const long = card.label.length >= 3;
+      // Char on top, word below — kids see AND learn the word (e.g. w / windows).
+      const wordHtml = card.word ? `<div class="card-word">${escapeHtml(card.word)}</div>` : '';
       el.innerHTML = `<div class="card-inner">
         <div class="card-face card-back-t"></div>
-        <div class="card-face card-front${long ? ' small' : ''}">${escapeHtml(card.label)}</div>
+        <div class="card-face card-front${long ? ' small' : ''}"><div class="card-char">${escapeHtml(card.label)}</div>${wordHtml}</div>
       </div>`;
       el.addEventListener('click', () => flip(el, card));
       el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(el, card); } });
@@ -147,9 +157,10 @@
       }, 350);
     } else {
       lock = true;
-      const t = TRY_AGAIN[Math.floor(Math.random() * TRY_AGAIN.length)];
-      window.PairAnim.mascot('sad', t);
+      const ti = Math.floor(Math.random() * TRY_AGAIN.length);
+      window.PairAnim.mascot('sad', TRY_AGAIN[ti]); // emoji OK on screen
       window.PairAudio.miss();
+      say(TRY_AGAIN_SPOKEN[ti]); // voice encourages too (plain English)
       const e1 = a.el, e2 = el;
       e1.classList.add('miss'); e2.classList.add('miss');
       setTimeout(() => {
@@ -242,7 +253,7 @@
       btn.classList.remove('pulse'); void btn.offsetWidth; btn.classList.add('pulse');
       // Read the face-up cards aloud — helps kids remember them.
       const open = [...document.querySelectorAll('#board .card.flipped:not(.matched)')]
-        .map((el) => el.querySelector('.card-front').textContent.trim())
+        .map((el) => (el.dataset.speak || '').trim())
         .filter(Boolean);
       if (open.length >= 2) {
         const names = open.slice(0, 2).join(', ');

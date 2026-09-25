@@ -13,11 +13,11 @@
       return { '🐶':'doggy','🐱':'kitty','🐭':'mousy','🐹':'hamster','🐰':'bunny','🦊':'foxy',
         '🐻':'bear','🐼':'panda','🐯':'tiger','🦁':'lion','🐸':'froggy' }[v] || 'animal';
     }
-    // Letters pair with a kid word ("c, cat!") so TTS speaks real English.
+    // Letters pair with a kid word ("c for cat!") so TTS speaks real English.
     // `word` is fixed per value per game, so both cards of a pair match.
     if (/^[A-Za-z]$/.test(v)) {
       const w = word || v;
-      return charsetId === 'AZ' ? ('Uppercase ' + v + ', ' + w) : (v + ', ' + w);
+      return charsetId === 'AZ' ? ('Uppercase ' + v + ' for ' + w) : (v + ' for ' + w);
     }
     if (/^\d+$/.test(v)) return 'Number ' + v;
     return v; // 0-9 fallback: speech engine says the digit name
@@ -36,8 +36,17 @@
     const picked = pool.slice(0, effective);
     const wordFor = {};
     picked.forEach((v) => { wordFor[v] = pickWord(v); });
+    const animalName = (v) => ({
+      '🐶': 'doggy', '🐱': 'kitty', '🐭': 'mousy', '🐹': 'hamster', '🐰': 'bunny', '🦊': 'foxy',
+      '🐻': 'bear', '🐼': 'panda', '🐨': 'koala', '🐯': 'tiger', '🦁': 'lion', '🐸': 'froggy'
+    }[v] || null);
     const cards = shuffle(picked.concat(picked).map((v, i) => ({
-      uid: i, value: v, label: v, speak: speakText(charsetId, v, wordFor[v])
+      uid: i,
+      value: v,
+      label: v,
+      // Printable word under the char so kids learn it (letters + animals).
+      word: charsetId === 'animals' ? animalName(v) : (wordFor[v] || null),
+      speak: speakText(charsetId, v, wordFor[v])
     })));
     const [cols, rows] = C.GRIDS[effective] || [6, 6];
     return { cards, effective, size, clamped, cols, rows, charsetId };
