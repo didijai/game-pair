@@ -3,7 +3,8 @@
   'use strict';
   const KEY = 'pairgame.settings.v1';
   const BEST_KEY = 'pairgame.best.v1';
-  const DEFAULTS = { charset: 'az', pairs: 6, tts: true, sfx: true, peek: true, engine: 'auto' };
+  // peek = preview seconds at game start (0 = no peek, max 30).
+  const DEFAULTS = { charset: 'az', pairs: 6, tts: true, sfx: true, peek: 2, engine: 'auto' };
 
   function load() {
     try {
@@ -11,7 +12,11 @@
       if (!raw) return Object.assign({}, DEFAULTS);
       const p = JSON.parse(raw);
       if (typeof p !== 'object' || !p) return Object.assign({}, DEFAULTS);
-      return Object.assign({}, DEFAULTS, p);
+      const merged = Object.assign({}, DEFAULTS, p);
+      let s = Math.round(Number(merged.peek));
+      if (!isFinite(s)) s = DEFAULTS.peek;
+      merged.peek = Math.max(0, Math.min(30, s));
+      return merged;
     } catch (e) { return Object.assign({}, DEFAULTS); }
   }
   let saveTimer = null;

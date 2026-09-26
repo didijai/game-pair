@@ -96,7 +96,9 @@
     </label>
     <label class="row switch"><span>🗣️ Talking voice (TTS)</span><input id="setTts" type="checkbox" checked></label>
     <label class="row switch"><span>🔔 Sound effects</span><input id="setSfx" type="checkbox" checked></label>
-    <label class="row switch"><span>👀 Peek at start (2s)</span><input id="setPeek" type="checkbox" checked></label>
+    <label class="row"><span>👀 Peek at start (sec, 0–30)</span>
+      <input id="setPeek" type="number" min="0" max="30" step="1" value="2">
+    </label>
     <p class="note">Settings save automatically on this computer. ✨</p>
     <div class="modal-actions">
       <button id="resetSettingsBtn" class="ghost-btn">Reset</button>

@@ -27,7 +27,7 @@
     $('pairsLabel').textContent = S.pairs;
     $('setPairs').value = S.pairs;
     $('setTts').checked = S.tts; $('setSfx').checked = S.sfx;
-    $('setPeek').checked = S.peek;
+    $('setPeek').value = S.peek;
     document.querySelectorAll('.chip').forEach(c =>
       c.classList.toggle('chip-active', Number(c.dataset.quick) === S.pairs));
     const { effective, clamped } = window.PairConfig.clampPairs(S.pairs, S.charset);
@@ -60,7 +60,7 @@
     updateHUD();
     window.PairAnim.mascot('idle', 'Pick any card!');
     say('Find the matching cards!');
-    if (S.peek) peekAll();
+    if (S.peek > 0) peekAll(S.peek);
   }
 
   // Measure the space the board may use (viewport minus HUD + mascot).
@@ -173,14 +173,15 @@
     }
   }
 
-  function peekAll() {
+  function peekAll(seconds) {
+    const ms = Math.max(500, Math.min(30000, Math.round(Number(seconds) || 0) * 1000));
     lock = true;
     document.querySelectorAll('.card').forEach(c => c.classList.add('flipped'));
     window.PairAnim.mascot('idle', 'Remember... 👀');
     setTimeout(() => {
       document.querySelectorAll('.card:not(.matched)').forEach(c => c.classList.remove('flipped'));
       lock = false;
-    }, 2000);
+    }, ms);
   }
 
   function updateHUD() {
@@ -242,7 +243,11 @@
     });
     $('setTts').addEventListener('change', (e) => { S.tts = e.target.checked; persist(); if (S.tts) say('Talking voice on!'); });
     $('setSfx').addEventListener('change', (e) => { S.sfx = e.target.checked; persist(); });
-    $('setPeek').addEventListener('change', (e) => { S.peek = e.target.checked; persist(); });
+    $('setPeek').addEventListener('change', (e) => {
+      let v = Math.round(Number(e.target.value));
+      if (!isFinite(v)) v = 2;
+      S.peek = Math.max(0, Math.min(30, v)); persist();
+    });
     // game screen
     $('homeBtn').addEventListener('click', () => {
       window.PairTTS.stop();
