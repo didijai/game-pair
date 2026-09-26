@@ -40,14 +40,22 @@
       '🐶': 'doggy', '🐱': 'kitty', '🐭': 'mousy', '🐹': 'hamster', '🐰': 'bunny', '🦊': 'foxy',
       '🐻': 'bear', '🐼': 'panda', '🐨': 'koala', '🐯': 'tiger', '🦁': 'lion', '🐸': 'froggy'
     }[v] || null);
-    const cards = shuffle(picked.concat(picked).map((v, i) => ({
-      uid: i,
-      value: v,
-      label: v,
-      // Printable word under the char so kids learn it (letters + animals).
-      word: charsetId === 'animals' ? animalName(v) : (wordFor[v] || null),
-      speak: speakText(charsetId, v, wordFor[v])
-    })));
+    // Picture file for the word (letters only; every WORDS entry is
+    // verified to have assets/pic/<word>.svg — Twemoji or hand-drawn).
+    const picFor = (word) => (word ? ('assets/pic/' + word + '.svg') : null);
+    const isLetters = (charsetId === 'az' || charsetId === 'AZ');
+    const cards = shuffle(picked.concat(picked).map((v, i) => {
+      const word = charsetId === 'animals' ? animalName(v) : (wordFor[v] || null);
+      return {
+        uid: i,
+        value: v,
+        label: v,
+        // Printable word under the char so kids learn it (letters + animals).
+        word: word,
+        pic: isLetters ? picFor(word) : null,
+        speak: speakText(charsetId, v, wordFor[v])
+      };
+    }));
     const [cols, rows] = C.GRIDS[effective] || [6, 6];
     return { cards, effective, size, clamped, cols, rows, charsetId };
   }

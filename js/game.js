@@ -121,11 +121,13 @@
       // aren't taught — those two cards fall back to Comic Neue instead.
       if (card.label === 'q' || card.label === 'J') el.classList.add('alt-font');
       const long = card.label.length >= 3;
-      // Char on top, word below — kids see AND learn the word (e.g. w / windows).
+      // Char on top, cartoon middle, word below (e.g. w / picture / windows).
+      // onerror removes a missing picture so a card never shows a broken icon.
+      const picHtml = card.pic ? `<img class="card-pic" src="${card.pic}" alt="" draggable="false" onerror="this.remove()">` : '';
       const wordHtml = card.word ? `<div class="card-word">${escapeHtml(card.word)}</div>` : '';
       el.innerHTML = `<div class="card-inner">
         <div class="card-face card-back-t"></div>
-        <div class="card-face card-front${long ? ' small' : ''}"><div class="card-char">${escapeHtml(card.label)}</div>${wordHtml}</div>
+        <div class="card-face card-front${long ? ' small' : ''}${card.pic ? '' : ' no-pic'}"><div class="card-char">${escapeHtml(card.label)}</div>${picHtml}${wordHtml}</div>
       </div>`;
       el.addEventListener('click', () => flip(el, card));
       el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(el, card); } });
