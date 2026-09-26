@@ -6,7 +6,7 @@
 *{box-sizing:border-box}
 body{
   margin:0; min-height:100vh; color:var(--ink);
-  font-family:"Comic Sans MS","Chalkboard SE","Segoe UI",sans-serif;
+  font-family:"Comic Neue","Chalkboard SE","Segoe UI",sans-serif;
   background:linear-gradient(180deg,var(--bg1),var(--bg2) 55%,var(--bg3));
   overflow-x:hidden;
 }
@@ -78,13 +78,13 @@ select,input[type=number]{font-size:1.1rem;padding:8px 10px;border-radius:12px;b
 .card-front.small .card-char{font-size:1.5rem;font-size:20cqw}
 .card-word{font-weight:700;font-size:.85rem;font-size:11cqw;color:#6d28d9;letter-spacing:.5px;line-height:1.2;overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
 /* Letter boards: handwriting style, same as keygame's falling letters
-   ('Coming Soon', Comic Sans fallback while the webfont loads). */
-#board.letters .card-char{font-family:'Coming Soon','Comic Sans MS',cursive}
-#board.letters .card-word{font-family:'Coming Soon','Comic Sans MS',cursive;letter-spacing:1px}
+   ('Coming Soon', Comic Neue fallback while the webfont loads). */
+#board.letters .card-char{font-family:'Coming Soon','Comic Neue',cursive}
+#board.letters .card-word{font-family:'Coming Soon','Comic Neue',cursive;letter-spacing:1px}
 /* Exception: Coming Soon's lowercase "q" and uppercase "J" don't match
-   taught handwriting — those cards use Comic Sans MS (char + word). */
+   taught handwriting — those cards use Comic Neue (char + word). */
 #board.letters .card.alt-font .card-char,
-#board.letters .card.alt-font .card-word{font-family:'Comic Sans MS','Comic Sans',cursive}
+#board.letters .card.alt-font .card-word{font-family:'Comic Neue',cursive}
 .card.matched .card-front{background:#dcfce7;border-color:#22c55e;animation:matchPop .6s}
 @keyframes matchPop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.15) rotate(3deg)}100%{transform:rotateY(180deg) scale(1)}}
 .card.miss{animation:shake .35s}

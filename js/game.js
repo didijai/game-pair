@@ -118,7 +118,7 @@
       el.dataset.uid = card.uid;
       el.dataset.speak = card.speak; // 🔊 button reads this (front text now mixes char + word)
       // Coming Soon draws lowercase "q" and uppercase "J" in shapes kids
-      // aren't taught — those two cards fall back to Comic Sans MS instead.
+      // aren't taught — those two cards fall back to Comic Neue instead.
       if (card.label === 'q' || card.label === 'J') el.classList.add('alt-font');
       const long = card.label.length >= 3;
       // Char on top, word below — kids see AND learn the word (e.g. w / windows).
