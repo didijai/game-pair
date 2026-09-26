@@ -77,6 +77,10 @@ select,input[type=number]{font-size:1.1rem;padding:8px 10px;border-radius:12px;b
 .card-char{font-weight:900;font-size:2.2rem;font-size:36cqw;line-height:1.1}
 .card-front.small .card-char{font-size:1.5rem;font-size:20cqw}
 .card-word{font-weight:700;font-size:.85rem;font-size:11cqw;color:#6d28d9;letter-spacing:.5px;line-height:1.2;overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
+/* Letter boards: handwriting style, same as keygame's falling letters
+   ('Coming Soon', Comic Sans fallback while the webfont loads). */
+#board.letters .card-char{font-family:'Coming Soon','Comic Sans MS',cursive}
+#board.letters .card-word{font-family:'Coming Soon','Comic Sans MS',cursive;letter-spacing:1px}
 .card.matched .card-front{background:#dcfce7;border-color:#22c55e;animation:matchPop .6s}
 @keyframes matchPop{0%{transform:rotateY(180deg) scale(1)}40%{transform:rotateY(180deg) scale(1.15) rotate(3deg)}100%{transform:rotateY(180deg) scale(1)}}
 .card.miss{animation:shake .35s}

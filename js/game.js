@@ -106,6 +106,9 @@
   function renderBoard() {
     const b = $('board');
     b.innerHTML = '';
+    // Letter boards use the handwriting font (same as keygame); numbers
+    // and animals keep the default chunky look.
+    b.classList.toggle('letters', deck.charsetId === 'az' || deck.charsetId === 'AZ');
     deck.cards.forEach((card, idx) => {
       const el = document.createElement('div');
       el.className = 'card deal-in';
