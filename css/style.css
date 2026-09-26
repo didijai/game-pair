@@ -73,8 +73,8 @@ select,input[type=number]{font-size:1.1rem;padding:8px 10px;border-radius:12px;b
 .card-back-t{background:var(--card-back);color:#fff}
 .card-back-t::after{content:"?";font-size:2.6rem;font-size:48cqw;text-shadow:0 2px 0 #0004;line-height:1}
 .card-front{background:var(--card-face);transform:rotateY(180deg);color:#312e81;
-  padding:4px;text-align:center;overflow:hidden;line-height:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
-.card-char{font-weight:900;font-size:2.2rem;font-size:36cqw;line-height:1.1}
+  padding:4px;text-align:center;overflow:hidden;line-height:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3cqw}
+.card-char{font-weight:900;font-size:2.2rem;font-size:36cqw;line-height:1.3}
 .card-front.small .card-char{font-size:1.5rem;font-size:20cqw}
 .card-word{font-weight:700;font-size:.85rem;font-size:11cqw;color:#6d28d9;letter-spacing:.5px;line-height:1.2;overflow:hidden;max-width:100%;text-overflow:ellipsis;white-space:nowrap}
 /* Letter boards: handwriting style, same as keygame's falling letters
