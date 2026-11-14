@@ -8,10 +8,16 @@
     }
     return arr;
   }
+  // Single source of truth for animal names: used both for the word printed
+  // under the card (card.word) and the text spoken by TTS (card.speak).
+  const ANIMAL_NAMES = {
+    '🐶': 'dog', '🐱': 'kitty', '🐭': 'mouse', '🐹': 'hamster', '🐰': 'bunny', '🦊': 'fox',
+    '🐻': 'bear', '🐼': 'panda', '🐨': 'koala', '🐯': 'tiger', '🦁': 'lion', '🐸': 'frog'
+  };
+
   function speakText(charsetId, v, word) {
     if (charsetId === 'animals') {
-      return { '🐶':'doggy','🐱':'kitty','🐭':'mousy','🐹':'hamster','🐰':'bunny','🦊':'foxy',
-        '🐻':'bear','🐼':'panda','🐯':'tiger','🦁':'lion','🐸':'froggy' }[v] || 'animal';
+      return ANIMAL_NAMES[v];
     }
     // Letters pair with a kid word ("c for cat!") so TTS speaks real English.
     // `word` is fixed per value per game, so both cards of a pair match.
@@ -36,10 +42,7 @@
     const picked = pool.slice(0, effective);
     const wordFor = {};
     picked.forEach((v) => { wordFor[v] = pickWord(v); });
-    const animalName = (v) => ({
-      '🐶': 'doggy', '🐱': 'kitty', '🐭': 'mousy', '🐹': 'hamster', '🐰': 'bunny', '🦊': 'foxy',
-      '🐻': 'bear', '🐼': 'panda', '🐨': 'koala', '🐯': 'tiger', '🦁': 'lion', '🐸': 'froggy'
-    }[v] || null);
+    const animalName = (v) => ANIMAL_NAMES[v];
     // Picture file for the word (letters only; every WORDS entry is
     // verified to have assets/pic/<word>.svg — Twemoji or hand-drawn).
     const picFor = (word) => (word ? ('assets/pic/' + word + '.svg') : null);
