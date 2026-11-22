@@ -90,12 +90,20 @@
       </select>
     </label>
     <label class="row">Pairs (2–18)
-      <input id="setPairs" type="number" min="2" max="18" step="1" value="6">
+      <span class="stepper">
+        <button id="setPairsMinus" type="button">−</button>
+        <b id="setPairsLabel">6</b>
+        <button id="setPairsPlus" type="button">+</button>
+      </span>
     </label>
     <label class="row switch"><span>🗣️ Talking voice (TTS)</span><input id="setTts" type="checkbox" checked></label>
     <label class="row switch"><span>🔔 Sound effects</span><input id="setSfx" type="checkbox" checked></label>
     <label class="row"><span>👀 Peek at start (sec, 0–30)</span>
-      <input id="setPeek" type="number" min="0" max="30" step="1" value="2">
+      <span class="stepper">
+        <button id="setPeekMinus" type="button">−</button>
+        <b id="setPeekLabel">2</b>
+        <button id="setPeekPlus" type="button">+</button>
+      </span>
     </label>
     <p class="note">Settings save automatically on this computer. ✨</p>
     <div class="modal-actions">

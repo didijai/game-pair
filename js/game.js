@@ -25,9 +25,9 @@
     $('startCharset').value = S.charset;
     $('setCharset').value = S.charset;
     $('pairsLabel').textContent = S.pairs;
-    $('setPairs').value = S.pairs;
+    $('setPairsLabel').textContent = S.pairs;
     $('setTts').checked = S.tts; $('setSfx').checked = S.sfx;
-    $('setPeek').value = S.peek;
+    $('setPeekLabel').textContent = S.peek;
     document.querySelectorAll('.chip').forEach(c =>
       c.classList.toggle('chip-active', Number(c.dataset.quick) === S.pairs));
     const { effective, clamped } = window.PairConfig.clampPairs(S.pairs, S.charset);
@@ -242,17 +242,12 @@
       persist();
     });
     $('setCharset').addEventListener('change', (e) => { S.charset = e.target.value; persist(); });
-    $('setPairs').addEventListener('change', (e) => {
-      let v = Math.round(Number(e.target.value) || 6);
-      S.pairs = Math.max(2, Math.min(18, v)); persist();
-    });
+    $('setPairsMinus').addEventListener('click', () => { S.pairs = Math.max(2, S.pairs - 1); persist(); window.PairAudio.click(); });
+    $('setPairsPlus').addEventListener('click', () => { S.pairs = Math.min(18, S.pairs + 1); persist(); window.PairAudio.click(); });
     $('setTts').addEventListener('change', (e) => { S.tts = e.target.checked; persist(); if (S.tts) say('Talking voice on!'); });
     $('setSfx').addEventListener('change', (e) => { S.sfx = e.target.checked; persist(); });
-    $('setPeek').addEventListener('change', (e) => {
-      let v = Math.round(Number(e.target.value));
-      if (!isFinite(v)) v = 2;
-      S.peek = Math.max(0, Math.min(30, v)); persist();
-    });
+    $('setPeekMinus').addEventListener('click', () => { S.peek = Math.max(0, S.peek - 1); persist(); window.PairAudio.click(); });
+    $('setPeekPlus').addEventListener('click', () => { S.peek = Math.min(30, S.peek + 1); persist(); window.PairAudio.click(); });
     // game screen
     $('homeBtn').addEventListener('click', () => {
       window.PairTTS.stop();
